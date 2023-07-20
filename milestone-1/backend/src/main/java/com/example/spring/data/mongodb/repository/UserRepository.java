@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.example.spring.data.mongodb.model.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
-  List<User> findByNameContaining(String Name);
+  List<User> findByName(String name);
 }
