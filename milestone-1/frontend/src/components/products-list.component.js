@@ -67,6 +67,10 @@ export default class ProductsList extends Component {
     this.setState({
       selectedFile: e.target.files[0]
     });
+    
+  }
+
+  onFileUploadHandler = (e) => {
     const formData = new FormData();
     formData.append('file', this.state.selectedFile);
     UploadService.upload(formData)
@@ -74,9 +78,9 @@ export default class ProductsList extends Component {
         res => {
           console.log(res.data)
           alert("file uploaded successfully")
+          window.location.reload(true)
         }
       )
-    
   }
 
   render() {
@@ -113,6 +117,9 @@ export default class ProductsList extends Component {
           <div className="form-group files color">
             <label>Upload XML File </label>
             <input type="file" className="form-control" name="file" onChange={this.onFileChangeHandler}/>
+            <button className="m-3 btn-sm" onClick={this.onFileUploadHandler}>
+              Upload
+            </button>
           </div>
 
         </div>
