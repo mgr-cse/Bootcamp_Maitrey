@@ -77,10 +77,16 @@ export default class ProductsList extends Component {
       .then(
         res => {
           console.log(res.data)
-          alert("file uploaded successfully")
+          if (res.status === 201) {
+            alert("file uploaded successfully");
+          } else {
+            alert("file upload failed!");
+          }
           window.location.reload(true)
         }
-      )
+      ).catch( res => {
+        alert("file upload failed!");
+      })
   }
 
   render() {

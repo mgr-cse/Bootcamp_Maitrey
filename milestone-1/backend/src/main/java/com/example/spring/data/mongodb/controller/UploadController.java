@@ -1,4 +1,4 @@
-package com.bezkoder.spring.data.mongodb.controller;
+package com.example.spring.data.mongodb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
+import com.example.spring.data.mongodb.model.Product;
+import com.example.spring.data.mongodb.repository.ProductRepository;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.bezkoder.spring.data.mongodb.model.Product;
-import com.bezkoder.spring.data.mongodb.repository.ProductRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -65,6 +66,7 @@ public class UploadController {
 
     } catch (Exception e) {
       // error in parsing
+      System.out.println("Parse Exception");
       return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
   }

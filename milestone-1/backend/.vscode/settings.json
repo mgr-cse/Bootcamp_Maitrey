@@ -1,5 +1,6 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "editor.tabSize": 2,
-    "editor.indentSize": "tabSize"
+    "editor.indentSize": "tabSize",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
