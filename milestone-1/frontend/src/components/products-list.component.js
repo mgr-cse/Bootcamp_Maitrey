@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
+import UploadService from "../services/upload.service"
 import { Link } from "react-router-dom";
 
 export default class ProductsList extends Component {
@@ -14,13 +15,13 @@ export default class ProductsList extends Component {
       tutorials: [],
       currentTutorial: null,
       currentIndex: -1,
+      selectedFile: ""
     };
   }
 
   componentDidMount() {
     this.retrieveTutorials();
   }
-
 
   retrieveTutorials() {
     ProductDataService.getAll()
@@ -61,6 +62,22 @@ export default class ProductsList extends Component {
       });
   }
 
+  onFileChangeHandler = (e) => {
+    e.preventDefault();
+    this.setState({
+      selectedFile: e.target.files[0]
+    });
+    const formData = new FormData();
+    formData.append('file', this.state.selectedFile);
+    UploadService.upload(formData)
+      .then(
+        res => {
+          console.log(res.data)
+          alert("file uploaded successfully")
+        }
+      )
+    
+  }
 
   render() {
     const { tutorials, currentTutorial, currentIndex } = this.state;
@@ -92,6 +109,12 @@ export default class ProductsList extends Component {
           >
             Remove All
           </button>
+
+          <div className="form-group files color">
+            <label>Upload XML File </label>
+            <input type="file" className="form-control" name="file" onChange={this.onFileChangeHandler}/>
+          </div>
+
         </div>
         <div className="col-md-6">
           {currentTutorial ? (
