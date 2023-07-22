@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import RegisterNavBar from "./navbar/register.component"
 
 import UserService from "../services/user.service";
 
@@ -105,7 +106,10 @@ export default class Register extends Component {
 
   render() {
     return (
-      <div className="col-md-12">
+      <div>
+        <RegisterNavBar />
+        <div className="container mt-3">
+          <div className="col-md-12">
         <div className="card card-container">
 
           <Form
@@ -167,6 +171,8 @@ export default class Register extends Component {
               }}
             />
           </Form>
+        </div>
+          </div>
         </div>
       </div>
     );

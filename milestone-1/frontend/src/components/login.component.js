@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 
 import { withRouter } from '../common/with-router';
 import UserService from "../services/user.service";
+import LoginNavBar from "./navbar/login.component"
 
 const required = value => {
   if (!value) {
@@ -85,7 +86,10 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="col-md-12">
+      <div>
+        <LoginNavBar />
+        <div className="container mt-3">
+          <div className="col-md-12">
         <div className="card card-container">
           <Form
             onSubmit={this.handleLogin}
@@ -143,6 +147,8 @@ class Login extends Component {
               }}
             />
           </Form>
+        </div>
+          </div>
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
 import UploadService from "../services/upload.service"
 import { Link } from "react-router-dom";
+import HomeNavBar from "./navbar/home.component"
 
 export default class ProductsList extends Component {
   constructor(props) {
@@ -93,7 +94,10 @@ export default class ProductsList extends Component {
     const { tutorials, currentTutorial, currentIndex } = this.state;
 
     return (
-      <div className="list row">
+      <div>
+        <HomeNavBar />
+        <div className="container mt-3">
+          <div className="list row">
         <div className="col-md-6">
           <h4>Products List</h4>
 
@@ -165,6 +169,8 @@ export default class ProductsList extends Component {
               <p>Please click on a Product...</p>
             </div>
           )}
+        </div>
+          </div>
         </div>
       </div>
     );

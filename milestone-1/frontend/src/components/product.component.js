@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
 import { withRouter } from '../common/with-router';
+import HomeNavBar from "./navbar/home.component"
 
 class Product extends Component {
   constructor(props) {
@@ -130,6 +131,9 @@ class Product extends Component {
 
     return (
       <div>
+        <HomeNavBar />
+        <div className="container mt-3">
+          <div>
         {currentTutorial ? (
           <div className="edit-form">
             <h4>Tutorial</h4>
@@ -190,6 +194,8 @@ class Product extends Component {
             <p>Please click on a Product...</p>
           </div>
         )}
+          </div>
+        </div>
       </div>
     );
   }

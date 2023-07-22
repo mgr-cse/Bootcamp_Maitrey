@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
+import HomeNavBar from  "./navbar/home.component"
 
 export default class AddProduct extends Component {
   constructor(props) {
@@ -74,7 +75,11 @@ export default class AddProduct extends Component {
 
   render() {
     return (
-      <div className="submit-form">
+      <div>
+        <HomeNavBar />
+
+        <div className="container mt-3">
+          <div className="submit-form">
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
@@ -129,6 +134,8 @@ export default class AddProduct extends Component {
             </button>
           </div>
         )}
+          </div>
+        </div>
       </div>
     );
   }

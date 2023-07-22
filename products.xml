@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<grocery>
+<product>
+<name>Apples</name>
+<price>1.50</price>
+<description>Red apples from Washington state</description>
+</product>
+<product>
+<name>Bananas</name>
+<price>0.50</price>
+<description>Yellow bananas from Ecuador</description>
+</product>
+<product>
+<name>Cheese</name>
+<price>3.99</price>
+<description>Cheddar cheese from Wisconsin</description>
+</product>
+<product>
+<name>Bread</name>
+<price>2.99</price>
+<description>Whole wheat bread from local bakery</description>
+</product>
+<product>
+<name>Milk</name>
+<price>2.49</price>
+<description>Whole milk from local dairy farm</description>
+</product>
+<product>
+<name>Eggs</name>
+<price>1.99</price>
+<description>Cage-free eggs from local farm</description>
+</product>
+<product>
+<name>Masala</name>
+<price>1.25</price>
+<description>Freshest masalas made without chemicals</description>
+</product>
+<product>
+<name>Oil</name>
+<price>4.00</price>
+<description>Healthiest oil out there which keeps you fit</description>
+</product>
+<product>
+<name>Flour</name>
+<price>0.99</price>
+<description>Best in value flour that makes the best cookies</description>
+</product>
+<product>
+<name>Butter</name>
+<price>3.99</price>
+<description>Natural butter with amazing taste</description>
+</product>
+</grocery>
