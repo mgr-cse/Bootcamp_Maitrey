@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
 import HomeNavBar from  "./navbar/home.component"
+//import productMqttService from "../services/productMqtt.service";
 
 export default class AddProduct extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ export default class AddProduct extends Component {
       price: this.state.price
     };
 
+    //productMqttService.create(data);
     ProductDataService.create(data)
       .then(response => {
         this.setState({
