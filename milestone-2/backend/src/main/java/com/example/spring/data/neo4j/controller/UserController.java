@@ -1,4 +1,4 @@
-package com.example.spring.data.mongodb.controller;
+package com.example.spring.data.neo4j.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.spring.data.mongodb.model.User;
-import com.example.spring.data.mongodb.repository.UserRepository;
+import com.example.spring.data.neo4j.model.User;
+import com.example.spring.data.neo4j.repository.UserRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -29,6 +29,8 @@ public class UserController {
   @PostMapping("/create")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {
+      List<User> users = userRepository.findByName(user.getName());
+      if (users.size()!=0) throw new Exception("user found, can't register", null);
       System.out.println(user.getName());
       User _user = userRepository.save(new User(user.getName(), user.getPassword()));
       return new ResponseEntity<>(_user, HttpStatus.CREATED);

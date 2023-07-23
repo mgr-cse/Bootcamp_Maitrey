@@ -1,16 +1,13 @@
-package com.example.spring.data.mongodb.model;
+package com.example.spring.data.neo4j.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
+@Node
 public class User {
 
   @Id
-  private String id;
-
-  @Indexed(unique = true)
   private String name;
   
   private String password;

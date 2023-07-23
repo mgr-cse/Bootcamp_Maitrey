@@ -1,4 +1,4 @@
-package com.example.spring.data.mongodb.controller;
+package com.example.spring.data.neo4j.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import com.example.spring.data.mongodb.model.Product;
-import com.example.spring.data.mongodb.repository.ProductRepository;
+import com.example.spring.data.neo4j.model.Product;
+import com.example.spring.data.neo4j.repository.ProductRepository;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

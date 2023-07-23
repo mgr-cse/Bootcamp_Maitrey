@@ -1,11 +1,14 @@
-package com.example.spring.data.mongodb.model;
+package com.example.spring.data.neo4j.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "tutorials")
+
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
+@Node
 public class Product {
-  @Id
+  @Id @GeneratedValue
   private String id;
 
   private String name;
