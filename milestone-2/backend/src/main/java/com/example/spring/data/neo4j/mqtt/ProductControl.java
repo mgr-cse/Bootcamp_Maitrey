@@ -1,9 +1,7 @@
 package com.example.spring.data.neo4j.mqtt;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 
 import com.example.spring.data.neo4j.model.Product;
