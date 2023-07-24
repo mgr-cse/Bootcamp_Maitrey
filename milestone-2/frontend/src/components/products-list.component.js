@@ -3,6 +3,7 @@ import ProductDataService from "../services/product.service";
 import UploadService from "../services/upload.service"
 import { Link } from "react-router-dom";
 import HomeNavBar from "./navbar/home.component"
+import ProductMqttService from "../services/productMqtt.service"
 
 export default class ProductsList extends Component {
   constructor(props) {
@@ -72,22 +73,22 @@ export default class ProductsList extends Component {
   }
 
   onFileUploadHandler = (e) => {
-    const formData = new FormData();
-    formData.append('file', this.state.selectedFile);
-    UploadService.upload(formData)
-      .then(
-        res => {
-          console.log(res.data)
-          if (res.status === 201) {
-            alert("file uploaded successfully");
-          } else {
-            alert("file upload failed!");
-          }
-          window.location.reload(true)
-        }
-      ).catch( res => {
-        alert("file upload failed!");
-      })
+    try {
+      const formData = new FormData();
+      formData.append('file', this.state.selectedFile);
+      console.log(this.state.selectedFile);
+      const reader = new FileReader()
+      reader.readAsText(this.state.selectedFile);
+      reader.onload = (e) => {
+        console.log(e.target.result);
+        ProductMqttService.uploadXML(e.target.result, ()=>{
+          alert("file delivered to mqtt server successfully");
+        });
+        window.location.reload(false);
+      }
+    } catch(err) {
+      alert("Exception: file upload failed")
+    }  
   }
 
   render() {

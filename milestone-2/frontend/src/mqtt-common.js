@@ -1,26 +1,44 @@
-const mqtt = require('mqtt')
+//create mqtt send api
 
-const url = 'mqtt://localhost:1883/';
+import Paho from "paho-mqtt"
+class MqttApi {
+  constructor() {
+    this.client = new Paho.Client("localhost", Number(9001), "/", "clientId");
+    this.onConnect = this.onConnect.bind();
+    this.client.connect({
+      onSuccess: this.onConnect
+    })
 
-const options = {
-  clean: true,
-  connectTimeout: 4,
-  clientId: 'client1',
+  } 
+  onConnect() {
+    console.log("MQTT client connected!")
+  }
+
+  publish(payload, deliveryCallback) {
+      this.client.onMessageDelivered = deliveryCallback;
+      let message = new Paho.Message(payload);
+      message.destinationName = "SpringBootRequest";
+      message.qos = 2;
+      this.client.send(message);
+  }
+
+  publishObjectOperation(obj, operation ,deliveryCallback) {
+    let payloadObject = {
+      op: operation,
+      data: obj
+    };
+    let payload = JSON.stringify(payloadObject);
+    console.log(payload)
+    this.publish(payload, deliveryCallback);
+    
+  }
+
+  disconnect (){
+    this.client.disconnect();
+  }
 }
 
-const mqttclient = mqtt.connect(url, options);
-console.log('hello')
-mqttclient.on('connect', function (packet) {
-  //mqttclient.subscribe('SpringBootAck');
-  mqttclient.publish("SpringBootRequest", "Hello", {qos: 2});
-  setTimeout(function() {
-    mqttclient.end()
-  }, 3000)
-});
+// Create a client instance: Broker, Port, Websocket Path, Client ID
 
-console.log('ack start');
-mqttclient.on("message", function(topic, message) {
-  console.log(message.toString());
-  mqttclient.end()
-})
-
+var mqttApi = new MqttApi();
+export default mqttApi;

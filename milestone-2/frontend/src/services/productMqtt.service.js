@@ -1,12 +1,13 @@
-import mqttclient from "../mqtt-common"
+import mqttApi from "../mqtt-common"
 
 class ProductMqttService {
-  create(data) {
-    if (!mqttclient.connected) {
-      alert('mqtt client not connected, please wait');
-      return;
-    }
-    mqttclient.publish("SpringBootReceive", "create!");
+  create(data, deliveryCallback) {
+    mqttApi.publishObjectOperation(data, "create",deliveryCallback);
+    
+  }
+
+  uploadXML(data, deliveryCallback) {
+    mqttApi.publishObjectOperation(data, "xml", deliveryCallback);
   }
 }
 

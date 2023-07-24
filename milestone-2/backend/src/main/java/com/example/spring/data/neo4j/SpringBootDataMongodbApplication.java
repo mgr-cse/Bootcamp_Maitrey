@@ -22,13 +22,19 @@ import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import org.springframework.context.ApplicationContext;
 
+import org.json.JSONObject;
+
 import com.example.spring.data.neo4j.model.Product;
+import com.example.spring.data.neo4j.mqtt.ProductControl;
 
 
 @SpringBootApplication
 public class SpringBootDataMongodbApplication {
 	@Autowired
 	private ApplicationContext context;
+  
+  @Autowired
+  private ProductControl productControl;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDataMongodbApplication.class, args);
@@ -57,8 +63,22 @@ public class SpringBootDataMongodbApplication {
       @Override
       public void handleMessage(Message<?> message) throws MessagingException {
           System.out.println(message.getPayload());
-					MyGateway gateway = context.getBean(MyGateway.class);
-					gateway.sendToMqtt("ACK");
+          try{
+            JSONObject payloadObject = new JSONObject(message.getPayload().toString());
+            System.out.print(payloadObject.toString());
+            String operation = payloadObject.getString("op");
+            // handle operations
+            if (operation.equals("create")) {
+              productControl.create(payloadObject.getJSONObject("data"));
+            } else if (operation.equals("xml")) {
+              productControl.fromXML(payloadObject.getString("data"));
+            }
+          } catch(Exception e) {
+            System.out.println("Errors while processing payload");
+            e.printStackTrace();
+          }
+					//MyGateway gateway = context.getBean(MyGateway.class);
+					//gateway.sendToMqtt("ACK");
       }
     };
   }

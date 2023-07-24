@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
 import HomeNavBar from  "./navbar/home.component"
-//import productMqttService from "../services/productMqtt.service";
+import ProductMqttService from "../services/productMqtt.service"
+
 
 export default class AddProduct extends Component {
   constructor(props) {
@@ -46,7 +47,18 @@ export default class AddProduct extends Component {
       price: this.state.price
     };
 
-    //productMqttService.create(data);
+    ProductMqttService.create(data , ()=> {
+      console.log("state:" + this.state.submitted);
+      //alert("Request delivered to mqtt server")
+      this.setState({
+        submitted: true
+      });
+      console.log("state:" + this.state.submitted);
+  
+    });
+    
+    
+    /*
     ProductDataService.create(data)
       .then(response => {
         this.setState({
@@ -61,7 +73,7 @@ export default class AddProduct extends Component {
       })
       .catch(e => {
         console.log(e);
-      });
+      });*/
   }
 
   newTutorial() {
@@ -84,7 +96,7 @@ export default class AddProduct extends Component {
           <div className="submit-form">
         {this.state.submitted ? (
           <div>
-            <h4>You submitted successfully!</h4>
+            <h4>You submitted successfully to broker!</h4>
             <button className="btn btn-success" onClick={this.newTutorial}>
               Add
             </button>
