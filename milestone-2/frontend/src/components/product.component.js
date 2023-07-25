@@ -108,7 +108,13 @@ class Product extends Component {
     ProductMqttService.delete(this.state.currentTutorial.id,
       () => {
         //console.log(response.data);
-        this.props.router.navigate('/products');
+        this.setState({
+          message: "delete request sent to mqtt server, redirecting"
+        })
+        setTimeout(() => {
+          this.props.router.navigate('/products');
+        }, 1000)
+        
       });
     /*
     ProductDataService.delete(this.state.currentTutorial.id)

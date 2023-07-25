@@ -94,13 +94,14 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
   }
   
   
+  /*
   public void disconnect() {
     try {
       this.mqttClient.disconnect();
     } catch (MqttException me) {
       logger.error("ERROR", me);
     }
-  }
+  }*/
   
   public void publishMessage(String topic, String message) {
     try {

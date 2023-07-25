@@ -3,14 +3,11 @@ package com.example.spring.data.neo4j.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.example.spring.data.neo4j.controller.UserController;
-import com.example.spring.data.neo4j.model.Product;
 import com.example.spring.data.neo4j.model.User;
 import com.example.spring.data.neo4j.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,15 +30,6 @@ class UserControllerTest {
 
     @Mock
     UserRepository userRepository;
-
-    private List<User> getUserList() {
-        User u1 = new User("u1", "pass1");
-        User u2 = new User("u2", "pass2");
-        List<User> userList = new ArrayList<>();
-        userList.add(u1);
-        userList.add(u2);
-        return  userList;
-    }
 
     @Test
     public void createUser() {

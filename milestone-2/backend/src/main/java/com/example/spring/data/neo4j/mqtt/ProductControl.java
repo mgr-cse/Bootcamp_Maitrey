@@ -59,8 +59,6 @@ public class ProductControl {
       doc.getDocumentElement().normalize();
       
       NodeList nodeList  = doc.getElementsByTagName("grocery");
-      if (nodeList.getLength()!=1)
-        throw new Exception("Cannot parse", null);
       Node groceryNode = nodeList.item(0);
       NodeList nameNodes = ((Element) groceryNode).getElementsByTagName("name");
       NodeList priceNodes = ((Element) groceryNode).getElementsByTagName("price");

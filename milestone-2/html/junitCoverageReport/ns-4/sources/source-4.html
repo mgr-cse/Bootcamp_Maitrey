@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductControl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.spring.data.neo4j.mqtt</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductControl (com.example.spring.data.neo4j.mqtt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductControl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.5%
+  </span>
+  <span class="absValue">
+    (29/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.spring.data.neo4j.mqtt;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;
+&nbsp;import com.example.spring.data.neo4j.model.Product;
+&nbsp;import com.example.spring.data.neo4j.repository.ProductRepository;
+&nbsp;
+&nbsp;import java.io.StringReader;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;import javax.xml.parsers.DocumentBuilder;
+&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+&nbsp;
+&nbsp;import org.json.JSONObject;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.Element;
+&nbsp;import org.w3c.dom.Node;
+&nbsp;import org.w3c.dom.NodeList;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;@Component(value = &quot;productControl&quot;)
+<b class="fc">&nbsp;public class ProductControl {</b>
+&nbsp;  @Autowired
+&nbsp;  ProductRepository productRepository;
+&nbsp;
+&nbsp;  public void create(JSONObject productJson) {
+<b class="fc">&nbsp;    productRepository.save(new Product(productJson.getString(&quot;name&quot;), productJson.getFloat(&quot;price&quot;), productJson.getString(&quot;description&quot;)));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void update(String id ,JSONObject prodJson) {
+<b class="fc">&nbsp;    Optional&lt;Product&gt; productData = productRepository.findById(id);</b>
+<b class="fc">&nbsp;    if(productData.isPresent()) {</b>
+<b class="fc">&nbsp;      Product _product = productData.get();</b>
+<b class="fc">&nbsp;      _product.setName(prodJson.getString(&quot;name&quot;));</b>
+<b class="fc">&nbsp;      _product.setDescription(prodJson.getString(&quot;description&quot;));</b>
+<b class="fc">&nbsp;      _product.setPrice(prodJson.getFloat(&quot;price&quot;));</b>
+<b class="fc">&nbsp;      productRepository.save(_product);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void deleteProduct(String id) {
+<b class="nc">&nbsp;    productRepository.deleteById(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void deleteAll() {
+<b class="nc">&nbsp;    productRepository.deleteAll();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void fromXML(String xml) {
+&nbsp;    try {
+<b class="fc">&nbsp;      DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();</b>
+<b class="fc">&nbsp;      Document doc = builder.parse(new InputSource(new StringReader(xml)));</b>
+&nbsp;      
+<b class="fc">&nbsp;      doc.getDocumentElement().normalize();</b>
+&nbsp;      
+<b class="fc">&nbsp;      NodeList nodeList  = doc.getElementsByTagName(&quot;grocery&quot;);</b>
+<b class="fc">&nbsp;      Node groceryNode = nodeList.item(0);</b>
+<b class="fc">&nbsp;      NodeList nameNodes = ((Element) groceryNode).getElementsByTagName(&quot;name&quot;);</b>
+<b class="fc">&nbsp;      NodeList priceNodes = ((Element) groceryNode).getElementsByTagName(&quot;price&quot;);</b>
+<b class="fc">&nbsp;      NodeList descriptionNodes = ((Element) groceryNode).getElementsByTagName(&quot;description&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;      List&lt;Product&gt; parsedList = new ArrayList&lt;Product&gt;();</b>
+<b class="fc">&nbsp;      for(int i=0; i&lt;nameNodes.getLength(); i++) {</b>
+<b class="fc">&nbsp;        String pName = nameNodes.item(i).getTextContent();</b>
+<b class="fc">&nbsp;        float pPrice = Float.parseFloat(priceNodes.item(i).getTextContent());</b>
+<b class="fc">&nbsp;        String pDesc = descriptionNodes.item(i).getTextContent();</b>
+&nbsp;
+<b class="fc">&nbsp;        parsedList.add(new Product(pName, pPrice, pDesc));</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // adding items to database
+<b class="fc">&nbsp;      for(Product p:parsedList) {</b>
+<b class="fc">&nbsp;        productRepository.save(p);</b>
+<b class="fc">&nbsp;      }</b>
+<b class="fc">&nbsp;    } catch (Exception e) {</b>
+<b class="fc">&nbsp;      System.out.println(&quot;XML parse error&quot;);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-07-26 02:59</div>
+</div>
+</body>
+</html>

@@ -12,10 +12,6 @@ public class User {
   
   private String password;
 
-  public User() {
-
-  }
-
   public User(String name, String password) {
     this.name = name;
     this.password = password;
@@ -41,6 +37,6 @@ public class User {
 
   @Override
   public String toString() {
-    return "User [name=" + ", password=" + password + "]";
+    return "User [name=" + name + ", password=" + password + "]";
   }
 }

@@ -15,9 +15,6 @@ public class Product {
   private String description;
   private float price;
 
-  public Product() {
-
-  }
 
   public Product(String name, float price ,String description) {
     this.name = name;
