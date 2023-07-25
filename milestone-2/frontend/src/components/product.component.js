@@ -105,6 +105,12 @@ class Product extends Component {
   }
 
   deleteTutorial() {    
+    ProductMqttService.delete(this.state.currentTutorial.id,
+      () => {
+        //console.log(response.data);
+        this.props.router.navigate('/products');
+      });
+    /*
     ProductDataService.delete(this.state.currentTutorial.id)
       .then(response => {
         console.log(response.data);
@@ -112,7 +118,7 @@ class Product extends Component {
       })
       .catch(e => {
         console.log(e);
-      });
+      });*/
   }
 
   render() {

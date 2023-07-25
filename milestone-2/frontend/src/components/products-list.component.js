@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
-import UploadService from "../services/upload.service"
 import { Link } from "react-router-dom";
 import HomeNavBar from "./navbar/home.component"
 import ProductMqttService from "../services/productMqtt.service"
@@ -54,14 +53,22 @@ export default class ProductsList extends Component {
   }
 
   removeAllTutorials() {
-    ProductDataService.deleteAll()
+
+    ProductMqttService.deleteAll(() => {
+      alert("requesting mqtt service to delete all items")
+      setTimeout(() => {
+        this.refreshList();
+      }, 1000);
+    });
+
+    /*ProductDataService.deleteAll()
       .then(response => {
         console.log(response.data);
         this.refreshList();
       })
       .catch(e => {
         console.log(e);
-      });
+      });*/
   }
 
   onFileChangeHandler = (e) => {

@@ -3,7 +3,6 @@ import mqttApi from "../mqtt-common"
 class ProductMqttService {
   create(data, deliveryCallback) {
     mqttApi.publishObjectOperation(data, "create",deliveryCallback);
-    
   }
 
   update(id, data, deliveryCallback) {
@@ -11,11 +10,11 @@ class ProductMqttService {
   }
 
   delete(id, deliveryCallback) {
-    mqttApi.publishOperationWithId(id, "delete");
+    mqttApi.publishOperationWithId(id, "delete", deliveryCallback);
   }
   
   deleteAll(deliveryCallback) {
-    mqttApi.publishObjectOperationWithId("null", "deleteAll");
+    mqttApi.publishOperationWithId("null", "deleteAll", deliveryCallback);
   }
 
   uploadXML(data, deliveryCallback) {

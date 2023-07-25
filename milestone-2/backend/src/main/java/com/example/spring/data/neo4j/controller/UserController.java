@@ -24,8 +24,6 @@ public class UserController {
   @Autowired
   UserRepository userRepository;
 
-
-
   @PostMapping("/create")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {

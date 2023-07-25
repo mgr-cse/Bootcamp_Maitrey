@@ -12,18 +12,18 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
 @SpringBootApplication
-public class SpringBootDataMongodbApplication extends SpringBootServletInitializer {
+public class SpringBootDataApplication extends SpringBootServletInitializer {
 
   @Autowired 
   Runnable MessageListener;
   
   @Override
    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-      return application.sources(SpringBootDataMongodbApplication.class);
+      return application.sources(SpringBootDataApplication.class);
    }
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootDataMongodbApplication.class, args);
+		SpringApplication.run(SpringBootDataApplication.class, args);
 	}
 
   // set primary task sheduler
