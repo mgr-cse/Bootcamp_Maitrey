@@ -18,3 +18,6 @@ listener 9001
 protocol websockets
 allow_anonymous true
 ```
+
+## Unit test coverage 85+
+![image](coverage.png)
