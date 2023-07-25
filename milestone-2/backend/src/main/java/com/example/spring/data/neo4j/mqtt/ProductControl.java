@@ -10,6 +10,7 @@ import com.example.spring.data.neo4j.repository.ProductRepository;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +22,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
+
 @Component(value = "productControl")
 public class ProductControl {
   @Autowired
@@ -28,6 +30,25 @@ public class ProductControl {
 
   public void create(JSONObject productJson) {
     productRepository.save(new Product(productJson.getString("name"), productJson.getFloat("price"), productJson.getString("description")));
+  }
+
+  public void update(String id ,JSONObject prodJson) {
+    Optional<Product> productData = productRepository.findById(id);
+    if(productData.isPresent()) {
+      Product _product = productData.get();
+      _product.setName(prodJson.getString("name"));
+      _product.setDescription(prodJson.getString("description"));
+      _product.setPrice(prodJson.getFloat("price"));
+      productRepository.save(_product);
+    }
+  }
+
+  public void deleteProduct(String id) {
+    productRepository.deleteById(id);
+  }
+
+  public void deleteAll() {
+    productRepository.deleteAll();
   }
 
   public void fromXML(String xml) {

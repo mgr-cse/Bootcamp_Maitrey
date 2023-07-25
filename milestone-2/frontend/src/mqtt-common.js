@@ -33,8 +33,29 @@ class MqttApi {
     
   }
 
+  publishObjectOperationWithId(obj, objId, operation, deliveryCallback) {
+    let payloadObject = {
+      op: operation,
+      id: objId,
+      data: obj
+    };
+    let payload = JSON.stringify(payloadObject);
+    console.log(payload);
+    this.publish(payload, deliveryCallback);
+  }
+
   disconnect (){
     this.client.disconnect();
+  }
+
+  publishOperationWithId(objId, operation, deliveryCallback) {
+    let payloadObject = {
+      op: operation,
+      id: objId
+    };
+    let payload = JSON.stringify(payloadObject);
+    console.log(payload);
+    this.publish(payload, deliveryCallback); 
   }
 }
 

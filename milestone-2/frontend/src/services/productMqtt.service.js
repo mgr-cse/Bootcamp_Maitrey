@@ -6,6 +6,18 @@ class ProductMqttService {
     
   }
 
+  update(id, data, deliveryCallback) {
+    mqttApi.publishObjectOperationWithId(data, id, "update", deliveryCallback);
+  }
+
+  delete(id, deliveryCallback) {
+    mqttApi.publishOperationWithId(id, "delete");
+  }
+  
+  deleteAll(deliveryCallback) {
+    mqttApi.publishObjectOperationWithId("null", "deleteAll");
+  }
+
   uploadXML(data, deliveryCallback) {
     mqttApi.publishObjectOperation(data, "xml", deliveryCallback);
   }

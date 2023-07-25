@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ProductDataService from "../services/product.service";
 import { withRouter } from '../common/with-router';
 import HomeNavBar from "./navbar/home.component"
+import ProductMqttService from "../services/productMqtt.service";
 
 class Product extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class Product extends Component {
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.getTutorial = this.getTutorial.bind(this);
-    this.updatePublished = this.updatePublished.bind(this);
     this.updateTutorial = this.updateTutorial.bind(this);
     this.deleteTutorial = this.deleteTutorial.bind(this);
 
@@ -77,30 +77,19 @@ class Product extends Component {
       });
   }
 
-  updatePublished(status) {
-    var data = {
-      id: this.state.currentTutorial.id,
-      name: this.state.currentTutorial.name,
-      description: this.state.currentTutorial.description,
-      price: this.state.currentTutorial.price
-    };
-
-    ProductDataService.update(this.state.currentTutorial.id, data)
-      .then(response => {
-        this.setState(prevState => ({
-          currentTutorial: {
-            ...prevState.currentTutorial,
-          }
-        }));
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
   updateTutorial() {
-    ProductDataService.update(
+    //add mqtt backend
+    ProductMqttService.update(
+      this.state.currentTutorial.id,
+      this.state.currentTutorial,
+      () => {
+        this.setState({
+          message: "update request successfully sent to mqtt server"
+        })
+      }
+    );
+
+    /*ProductDataService.update(
       this.state.currentTutorial.id,
       this.state.currentTutorial
     )
@@ -112,14 +101,14 @@ class Product extends Component {
       })
       .catch(e => {
         console.log(e);
-      });
+      });*/
   }
 
   deleteTutorial() {    
     ProductDataService.delete(this.state.currentTutorial.id)
       .then(response => {
         console.log(response.data);
-        this.props.router.navigate('/tutorials');
+        this.props.router.navigate('/products');
       })
       .catch(e => {
         console.log(e);

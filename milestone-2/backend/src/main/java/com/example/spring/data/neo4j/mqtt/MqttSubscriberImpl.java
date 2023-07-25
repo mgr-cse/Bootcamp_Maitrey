@@ -129,6 +129,8 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
         productControl.create(payloadObject.getJSONObject("data"));
       } else if (operation.equals("xml")) {
         productControl.fromXML(payloadObject.getString("data"));
+      } else if (operation.equals("update")) {
+        productControl.update(payloadObject.getString("id"), payloadObject.getJSONObject("data"));
       }
     } catch(Exception e) {
       System.out.println("Errors while processing payload");

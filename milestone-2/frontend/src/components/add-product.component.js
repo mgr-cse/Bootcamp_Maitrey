@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ProductDataService from "../services/product.service";
 import HomeNavBar from  "./navbar/home.component"
 import ProductMqttService from "../services/productMqtt.service"
 
@@ -56,24 +55,6 @@ export default class AddProduct extends Component {
       console.log("state:" + this.state.submitted);
   
     });
-    
-    
-    /*
-    ProductDataService.create(data)
-      .then(response => {
-        this.setState({
-          id: response.data.id,
-          name: response.data.name,
-          description: response.data.description,
-          price: response.data.price,
-
-          submitted: true
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });*/
   }
 
   newTutorial() {
