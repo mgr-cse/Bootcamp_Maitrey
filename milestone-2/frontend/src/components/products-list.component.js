@@ -90,8 +90,8 @@ export default class ProductsList extends Component {
         console.log(e.target.result);
         ProductMqttService.uploadXML(e.target.result, ()=>{
           alert("file delivered to mqtt server successfully");
+          window.location.reload(false);
         });
-        window.location.reload(false);
       }
     } catch(err) {
       alert("Exception: file upload failed")
