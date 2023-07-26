@@ -17,6 +17,7 @@ import com.example.spring.data.neo4j.model.User;
 import com.example.spring.data.neo4j.repository.UserRepository;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class UserController {
 

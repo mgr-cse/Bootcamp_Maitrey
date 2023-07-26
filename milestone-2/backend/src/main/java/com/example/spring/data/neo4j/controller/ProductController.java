@@ -18,6 +18,7 @@ import com.example.spring.data.neo4j.model.Product;
 import com.example.spring.data.neo4j.repository.ProductRepository;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class ProductController {
 
