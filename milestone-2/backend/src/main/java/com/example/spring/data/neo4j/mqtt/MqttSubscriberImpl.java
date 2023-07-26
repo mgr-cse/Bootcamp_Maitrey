@@ -1,6 +1,8 @@
 package com.example.spring.data.neo4j.mqtt;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -21,7 +23,7 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
   
   @Autowired
   ProductControl productControl;
-  
+
   //private static final String fota_fetch_record = "fota_fetch_record";
   private String brokerUrl = null;
   final private String colon = ":";
@@ -35,9 +37,15 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
   
   public MqttSubscriberImpl() {
     logger.info("I am MqttSub impl");
+
+  }
+
+  @PostConstruct
+  public void brokerValInit() {
+    System.out.println("mqtt.broker.url " + broker );
     this.config();
   }
-  
+
   @Override
   public void connectionLost(Throwable cause) {
     logger.info("Connection Lost" + cause);

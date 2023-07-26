@@ -1,8 +1,11 @@
 package com.example.spring.data.neo4j.mqtt;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public abstract class MqttConfig {
-   
-  protected final String broker = "localhost";
+
+  @Value("${mqtt.broker.url}")
+  protected String broker = "localhost";
   protected final int qos = 2;
   protected Boolean hasSSL = false; /*By default SSL is disabled */
   protected Integer port = 1883; /* Default port */

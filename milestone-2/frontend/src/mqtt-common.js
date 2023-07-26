@@ -1,9 +1,11 @@
 //create mqtt send api
-
 import Paho from "paho-mqtt"
+
+const {MQTT_HOST} = require("./constants")
+
 class MqttApi {
   constructor() {
-    this.client = new Paho.Client("localhost", Number(9001), "/", "clientId");
+    this.client = new Paho.Client(MQTT_HOST, Number(9002), "/", "clientId");
     this.onConnect = this.onConnect.bind(this);
     this.prepare = this.prepare.bind(this);
     this.client.connect({

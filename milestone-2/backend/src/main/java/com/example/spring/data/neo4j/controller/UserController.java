@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.spring.data.neo4j.model.User;
 import com.example.spring.data.neo4j.repository.UserRepository;
 
-@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class UserController {
