@@ -1,0 +1,19 @@
+
+[	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(´¸Ä¡
+[	java:S112+"FDefine and throw a dedicated exception instead of using a generic one.(™Ã§—
+[	java:S112."FDefine and throw a dedicated exception instead of using a generic one.(ø·
+o
+java:S2293-"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÃÎ©ø
+f	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŞÇ¡
+¤
+java:S44492"ˆAnnotate the parameter with @javax.annotation.Nullable in constructor declaration, or make sure that null can not be passed as argument.(¾ûô¾üÿÿÿÿ
+¤
+java:S4449#"ˆAnnotate the parameter with @javax.annotation.Nullable in constructor declaration, or make sure that null can not be passed as argument.(¾ûô¾üÿÿÿÿ
+T
+java:S1155">Use isEmpty() to check whether the collection is empty or not.(´¸Ä¡
+S	java:S106"9Replace this use of System.out or System.err by a logger.(„£õòùÿÿÿÿ
+T
+java:S1155+">Use isEmpty() to check whether the collection is empty or not.(™Ã§—
+S	java:S1061"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ
+m
+java:S1128"PRemove this unused import 'org.springframework.web.bind.annotation.CrossOrigin'.(º´Ñ†8³‡¢ˆ™1

@@ -1,0 +1,8 @@
+
+o
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(¼Ã¥ß
+¤
+java:S4449)"ˆAnnotate the parameter with @javax.annotation.Nullable in constructor declaration, or make sure that null can not be passed as argument.(¾ûô¾üÿÿÿÿ
+m
+java:S1128
+"PRemove this unused import 'org.springframework.web.bind.annotation.CrossOrigin'.(º´Ñ†8¼¼¡ˆ™1
