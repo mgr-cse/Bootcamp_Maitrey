@@ -96,7 +96,12 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
       
       this.mqttClient.subscribe(topic, this.qos);
     } catch (MqttException me) {
-      System.out.println("Not able to Read Topic  "+ topic);
+      if(me.getReasonCode()==me.REASON_CODE_CLIENT_NOT_CONNECTED) {
+        System.out.println("MQTT: Trying to reconnect");
+        config();
+      } else {
+        System.out.println("MQTT: client not connected unknown reason");
+      }
       // me.printStackTrace();
     }
   }
