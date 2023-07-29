@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inventory
+  labels:
+    app.kubernetes.io/name: inventory
+spec:
+  containers:
+    - name: mqtt
+      image: mgrcse/milestone-3_mqtt:arm64
+      ports:
+        - containerPort: 1883
+        - containerPort: 9001
+    - name: graphdb
+      image: neo4j:latest
+      env:
+       - name: NEO4J_AUTH
+         value: neo4j/8bitguy123
+      ports:
+        - containerPort: 7474
+        - containerPort: 7687
+    - name: backend
+      image: mgrcse/milestone-3_backend:arm64
+      ports:
+        - containerPort: 8080
+    - name: frontend
+      image: mgrcse/milestone-3_frontend:arm64
+      ports:
+        - containerPort: 8081
+          name: web-svc
