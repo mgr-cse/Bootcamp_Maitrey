@@ -3,59 +3,36 @@ version: '2'
 services:
   mqtt:
     container_name: mqtt
-    build: mosquitto/.
+    image: mgrcse/milestone-3_mqtt:arm64
     ports:
-     - "1883:1883"
-     - "9001:9001"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.5
+     - "9002:9002"
 
   graphdb:
     container_name: graphdb
     image: neo4j:latest
     environment:
-      - NEO4J_AUTH=neo4j/8bitguy123 
-    ports:
-     - "7474:7474"
-     - "7687:7687"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.6
+      - NEO4J_AUTH=neo4j/8bitguy123
 
   backend:
     container_name: spring-boot-backend
-    build: backend/.
+    image: mgrcse/milestone-3_backend:arm64
     environment:
-      - DB_URL=bolt://10.5.0.6:7687
-      - MQTT_HOST=10.5.0.5
+      - DB_URL=bolt://graphdb:7687
+      - MQTT_HOST=mqtt
     ports:
      - "8080:8080"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.7
     depends_on:
       - mqtt
       - graphdb
 
   frontend:
     container_name: node-frontend
-    build: frontend/.
+    image: mgrcse/milestone-3_frontend:arm64
     environment:
-      - REST_HOST=10.5.0.7
-      - MQTT_HOST=10.5.0.5
+      - REST_HOST=localhost
+      - MQTT_HOST=localhost
     ports:
      - "8081:8081"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.8
     depends_on:
      - backend
     
-networks:
-  vpcbr:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 10.5.0.0/16
-         gateway: 10.5.0.1
