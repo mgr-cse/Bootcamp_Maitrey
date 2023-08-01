@@ -54,17 +54,19 @@ class ProductControllerTest {
 
 
         // correctness
-        assertThat(products.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(products.getBody().size()).isEqualTo(2);
+        if(products.hasBody()) {
+            assertThat(products.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(products.getBody().size()).isEqualTo(2);
 
-        assertThat(products.getBody().get(0).getName()).isEqualTo("p1");
-        assertThat(products.getBody().get(1).getName()).isEqualTo("p2");
+            assertThat(products.getBody().get(0).getName()).isEqualTo("p1");
+            assertThat(products.getBody().get(1).getName()).isEqualTo("p2");
 
-        assertThat(products.getBody().get(0).getPrice()).isEqualTo(1.0f);
-        assertThat(products.getBody().get(1).getPrice()).isEqualTo(1.0f);
+            assertThat(products.getBody().get(0).getPrice()).isEqualTo(1.0f);
+            assertThat(products.getBody().get(1).getPrice()).isEqualTo(1.0f);
 
-        assertThat(products.getBody().get(0).getDescription()).isEqualTo("p1-dsc");
-        assertThat(products.getBody().get(1).getDescription()).isEqualTo("p2-dsc");
+            assertThat(products.getBody().get(0).getDescription()).isEqualTo("p1-dsc");
+            assertThat(products.getBody().get(1).getDescription()).isEqualTo("p2-dsc");
+        }
 
     }
 

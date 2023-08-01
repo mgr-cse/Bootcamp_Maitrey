@@ -28,7 +28,7 @@ public class ProductController {
   @GetMapping("/products")
   public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String name) {
     try {
-      List<Product> products = new ArrayList<Product>();
+      List<Product> products = new ArrayList<>();
 
       if (name == null)
         productRepository.findAll().forEach(products::add);

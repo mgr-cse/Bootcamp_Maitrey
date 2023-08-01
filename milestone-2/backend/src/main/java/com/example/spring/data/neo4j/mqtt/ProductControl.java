@@ -16,6 +16,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,6 +27,7 @@ import org.w3c.dom.NodeList;
 
 @Component(value = "productControl")
 public class ProductControl {
+   private static final Logger logger = LoggerFactory.getLogger(ProductControl.class);
   @Autowired
   ProductRepository productRepository;
 
@@ -78,7 +81,7 @@ public class ProductControl {
         productRepository.save(p);
       }
     } catch (Exception e) {
-      System.out.println("XML parse error");
+       logger.error("XML parse error");
     }
   }
 }

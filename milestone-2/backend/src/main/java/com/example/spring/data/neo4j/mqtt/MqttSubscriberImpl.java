@@ -2,7 +2,6 @@ package com.example.spring.data.neo4j.mqtt;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -24,10 +23,9 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
   @Autowired
   ProductControl productControl;
 
-  //private static final String fota_fetch_record = "fota_fetch_record";
   private String brokerUrl = null;
-  final private String colon = ":";
-  final private String clientId = UUID.randomUUID().toString();
+  private static final String COLON = ":";
+  private final String clientId = UUID.randomUUID().toString();
   
   private MqttClient mqttClient = null;
   private MqttConnectOptions connectionOptions = null;
@@ -42,84 +40,73 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
 
   @PostConstruct
   public void brokerValInit() {
-    System.out.println("mqtt.broker.url " + broker );
     this.config();
   }
 
   @Override
   public void connectionLost(Throwable cause) {
-    logger.info("Connection Lost" + cause);
+    String message = String.format("Connection Lost %1$s", cause);
+    logger.info(message);
     this.config();
   }
   
   @Override
   protected void config(String broker, Integer port, Boolean ssl, Boolean withUserNamePass) {
     logger.info("Inside Parameter Config");
-    String protocal = this.TCP;
+    String protocal = MqttConfig.TCP;
     
-    this.brokerUrl = protocal + this.broker + colon + port;
+    this.brokerUrl = protocal + this.broker + COLON + port;
     this.persistence = new MemoryPersistence();
     this.connectionOptions = new MqttConnectOptions();
     
     try {
       this.mqttClient = new MqttClient(brokerUrl, clientId, persistence);
       this.connectionOptions.setCleanSession(true);
-      this.connectionOptions.setPassword(this.password.toCharArray());
-      this.connectionOptions.setUserName(this.userName);
+      this.connectionOptions.setPassword(MqttConfig.PASSWORD.toCharArray());
+      this.connectionOptions.setUserName(MqttConfig.USERNAME);
       this.mqttClient.connect(this.connectionOptions);
       this.mqttClient.setCallback(this);
     } catch (Exception e) {
-      System.out.println("Unable to connect");
+      logger.info("Unable to connect");
     }
   }
   
   @Override
   protected void config() {
     logger.info("Inside Config with parameter");
-    this.brokerUrl = this.TCP + this.broker + colon + this.port;
+    this.brokerUrl = MqttConfig.TCP + this.broker + COLON + this.port;
     this.persistence = new MemoryPersistence();
     this.connectionOptions = new MqttConnectOptions();
     try {
       this.mqttClient = new MqttClient(brokerUrl, clientId, persistence);
       this.connectionOptions.setCleanSession(true);
-      this.connectionOptions.setPassword(this.password.toCharArray());
-      this.connectionOptions.setUserName(this.userName);
+      this.connectionOptions.setPassword(MqttConfig.PASSWORD.toCharArray());
+      this.connectionOptions.setUserName(MqttConfig.USERNAME);
       this.mqttClient.connect(this.connectionOptions);
       this.mqttClient.setCallback(this);
     } catch (MqttException me) {
-      System.out.println("not conneted to mqtt");
+      logger.info("not conneted to mqtt");
     }
   }
   
   public void subscribeMessage(String topic) {
     try {
       
-      this.mqttClient.subscribe(topic, this.qos);
+      this.mqttClient.subscribe(topic, MqttConfig.QOS);
     } catch (MqttException me) {
-      if(me.getReasonCode()==me.REASON_CODE_CLIENT_NOT_CONNECTED) {
-        System.out.println("MQTT: Trying to reconnect");
+      if(me.getReasonCode()==MqttException.REASON_CODE_CLIENT_NOT_CONNECTED) {
+        logger.info("MQTT: Trying to reconnect");
         config();
       } else {
-        System.out.println("MQTT: client not connected unknown reason");
+        logger.info("MQTT: client not connected unknown reason");
       }
-      // me.printStackTrace();
     }
   }
-  
-  
-  /*
-  public void disconnect() {
-    try {
-      this.mqttClient.disconnect();
-    } catch (MqttException me) {
-      logger.error("ERROR", me);
-    }
-  }*/
-  
+
   public void publishMessage(String topic, String message) {
     try {
       MqttMessage mqttMessage = new MqttMessage(message.getBytes());
-      mqttMessage.setQos(this.qos);
+      mqttMessage.setQos(MqttConfig.QOS);
       mqttMessage.setRetained(false);
       this.mqttClient.publish(topic, mqttMessage);
     } catch (MqttException me) {
@@ -130,13 +117,12 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
   @Override
   public void messageArrived(String mqttTopic, MqttMessage message) throws Exception {
     String rawPayload = new String(message.getPayload());
-    System.out.println(rawPayload);
+    logger.info(rawPayload);
 
     // send some acknowledgement
     this.publishMessage("SpringBootAck", "ACK");
     try{
       JSONObject payloadObject = new JSONObject(rawPayload);
-      System.out.print(payloadObject.toString());
       String operation = payloadObject.getString("op");
       // handle operations
       if (operation.equals("create")) {
@@ -151,13 +137,13 @@ public class MqttSubscriberImpl extends MqttConfig implements MqttCallback{
         productControl.deleteAll();
       }
     } catch(Exception e) {
-      System.out.println("Errors while processing payload");
+      logger.error("Errors while processing payload");
       e.printStackTrace();
     }
   }
   
   @Override
   public void deliveryComplete(IMqttDeliveryToken token) {
-    
+    // essential ovrride
   }
 }

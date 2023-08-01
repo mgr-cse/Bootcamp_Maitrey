@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException;
 
 import com.example.spring.data.neo4j.model.User;
 import com.example.spring.data.neo4j.repository.UserRepository;
@@ -28,10 +29,9 @@ public class UserController {
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {
       List<User> users = userRepository.findByName(user.getName());
-      if (users.size()!=0) throw new Exception("user found, can't register", null);
-      System.out.println(user.getName());
-      User _user = userRepository.save(new User(user.getName(), user.getPassword()));
-      return new ResponseEntity<>(_user, HttpStatus.CREATED);
+      if (!users.isEmpty()) throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
+      User userTemp = userRepository.save(new User(user.getName(), user.getPassword()));
+      return new ResponseEntity<>(userTemp, HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -41,13 +41,12 @@ public class UserController {
   public ResponseEntity<User> verifyUser(@RequestBody User user) {
     try {
       List<User> users = userRepository.findByName(user.getName());
-      if (users.size()==0) throw new Exception("user not found", null);
+      if (users.isEmpty())  throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
       if(users.get(0).getPassword().equals(user.getPassword()))
-        return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
-      else throw new Exception("passwords not match", null);
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+      else throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
