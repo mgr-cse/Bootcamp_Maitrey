@@ -26,6 +26,11 @@ spec:
         - containerPort: 8080
     - name: frontend
       image: 094412661274.dkr.ecr.ap-southeast-2.amazonaws.com/milestone-3_frontend:arm64
+      env:
+       - name: MQTT_HOST
+         value: localhost
+       - name: REST_HOST
+         value: localhost
       ports:
         - containerPort: 8081
           name: web-svc
