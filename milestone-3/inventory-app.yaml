@@ -2,12 +2,13 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: inventory
+  namespace: inventory-space
   labels:
     app.kubernetes.io/name: inventory
 spec:
   containers:
     - name: mqtt
-      image: mgrcse/milestone-3_mqtt:arm64
+      image: 094412661274.dkr.ecr.ap-southeast-2.amazonaws.com/milestone-3_mqtt:arm64
       ports:
         - containerPort: 1883
         - containerPort: 9001
@@ -20,11 +21,11 @@ spec:
         - containerPort: 7474
         - containerPort: 7687
     - name: backend
-      image: mgrcse/milestone-3_backend:arm64
+      image: 094412661274.dkr.ecr.ap-southeast-2.amazonaws.com/milestone-3_backend:arm64
       ports:
         - containerPort: 8080
     - name: frontend
-      image: mgrcse/milestone-3_frontend:arm64
+      image: 094412661274.dkr.ecr.ap-southeast-2.amazonaws.com/milestone-3_frontend:arm64
       ports:
         - containerPort: 8081
           name: web-svc

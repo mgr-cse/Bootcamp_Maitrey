@@ -3,7 +3,7 @@ version: '2'
 services:
   mqtt:
     container_name: mqtt
-    image: mgrcse/milestone-3_mqtt:arm64
+    build: mosquitto/.
     ports:
      - "9002:9002"
 
@@ -15,7 +15,7 @@ services:
 
   backend:
     container_name: spring-boot-backend
-    image: mgrcse/milestone-3_backend:arm64
+    build: backend/.
     environment:
       - DB_URL=bolt://graphdb:7687
       - MQTT_HOST=mqtt
@@ -27,7 +27,7 @@ services:
 
   frontend:
     container_name: node-frontend
-    image: mgrcse/milestone-3_frontend:arm64
+    build: frontend/.
     environment:
       - REST_HOST=localhost
       - MQTT_HOST=localhost
