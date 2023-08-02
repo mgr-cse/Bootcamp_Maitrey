@@ -17,7 +17,7 @@ spec:
         image: mgrcse/milestone-3_backend:amd64
         env:
         - name: MQTT_HOST
-          value: mqtt-tcp
+          value: localhost
         ports:
         - containerPort: 8080
           name: apiport
@@ -26,33 +26,6 @@ spec:
         env:
         - name: NEO4J_AUTH
           value: neo4j/8bitguy123
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: spring-boot-backend
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 8080
-  selector:
-    app: spring-boot-backend
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mqtt
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mqtt
-  template:
-    metadata:
-      labels:
-        app: mqtt
-    spec:
-      containers:
       - name: mqtt
         image: mgrcse/milestone-3_mqtt:amd64
         ports:
@@ -64,21 +37,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mqtt-tcp
-spec:
-  ports:
-  - port: 1883
-    name: mqtttcp
-  selector:
-    app: mqtt
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mqtt
+  name: spring-boot-backend
 spec:
   type: LoadBalancer
   ports:
+  - port: 8080
+    name: aptport
   - port: 9002
+    name: mqttws
   selector:
-    app: mqtt
+    app: spring-boot-backend

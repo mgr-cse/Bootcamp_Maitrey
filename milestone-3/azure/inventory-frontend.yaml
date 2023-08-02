@@ -17,9 +17,9 @@ spec:
         image: mgrcse/milestone-3_frontend:amd64
         env:
         - name: MQTT_HOST
-          value: 20.219.236.135
+          value: 20.207.102.33
         - name: REST_HOST
-          value: 20.219.233.168
+          value: 20.207.102.33
         ports:
         - containerPort: 8081
 ---
