@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-frontend
+  template:
+    metadata:
+      labels:
+        app: node-frontend
+    spec:
+      containers:
+      - name: node-frontend
+        image: mgrcse/milestone-3_frontend:amd64
+        env:
+        - name: MQTT_HOST
+          value: 20.219.236.135
+        - name: REST_HOST
+          value: 20.219.233.168
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8081
+  selector:
+    app: node-frontend

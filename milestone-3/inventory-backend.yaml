@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-backend
+  template:
+    metadata:
+      labels:
+        app: spring-boot-backend
+    spec:
+      containers:
+      - name: spring-boot-backend
+        image: mgrcse/milestone-3_backend:arm64
+        env:
+        - name: MQTT_HOST
+          value: mqtt-tcp
+        ports:
+        - containerPort: 8080
+          name: apiport
+      - name: graphdb
+        image: neo4j:latest
+        env:
+        - name: NEO4J_AUTH
+          value: neo4j/8bitguy123
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-backend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: spring-boot-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt
+  template:
+    metadata:
+      labels:
+        app: mqtt
+    spec:
+      containers:
+      - name: mqtt
+        image: mgrcse/milestone-3_mqtt:arm64
+        ports:
+        - containerPort: 1883
+          name: mqtttcp
+        - containerPort: 9002
+          name: mqttws
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt-tcp
+spec:
+  ports:
+  - port: 1883
+    name: mqtttcp
+  selector:
+    app: mqtt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 9002
+  selector:
+    app: mqtt
